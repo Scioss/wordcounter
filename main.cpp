@@ -2,12 +2,16 @@
 #include <cctype>
 #include <algorithm>
 #include <vector>
+#include <limits>
 
 std::string sentence;
 std::vector<std::string> sentenceWords;
 
 std::string word;
 int nbWord;
+
+std::string const continueKey = "y";
+std::string key = "y";
 
 // Delimiter to separate words
 constexpr char delimiter = ' ';
@@ -64,13 +68,23 @@ std::string remove_spaces(std::string str) {
 }
 
 int main() {
-    std::cout << "Enter a sentence, I will clean and cut it : ";
-    std::getline(std::cin, sentence);
-    std::cout << "The sentence without spaces is: ";
-    sentence = remove_spaces(sentence);
-    write_sentence();
-    cutSentence();
-    write_cut_sentence();
-    write_nb_word();
+    while (key == continueKey) {
+        std::cout << "Enter a sentence, I will clean and cut it : ";
+        std::getline(std::cin, sentence);
+        std::cout << "The sentence without spaces is: ";
+        sentence = remove_spaces(sentence);
+        write_sentence();
+        cutSentence();
+        write_cut_sentence();
+        write_nb_word();
+        std::cout << "Press Y to continue or another key to quit : ";
+        std::cin.clear();
+        std::cin >> key;
+        key = remove_spaces(key);
+        for (int i = 0; i < key.size(); i++) {
+            key[i] = tolower(key[i]);
+        }
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
     return 0;
 }
